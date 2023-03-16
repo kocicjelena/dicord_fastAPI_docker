@@ -1,0 +1,30 @@
+name: Discord app with FastAPI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest   
+    steps:
+      - name: Deploy to Azure
+        uses: appleboy/ssh-action@master
+        # Actions Secrets added on GitHub repo
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |  
+            cd ${{ secrets.PATH }} 
+            git pull origin main 
+            make down-v
+            make build
+            echo "Old image deleted"
+            docker image prune -a -f

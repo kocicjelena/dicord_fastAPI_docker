@@ -2,3 +2,13 @@
 testing:
 
 docker compose up --build -d --remove-orphans
+
+
+GitHub Actions:
+
+After commits and push to Github repository localy,
+github actions steps are made to 
+login to remote server 
+pull the latest code, 
+build a new Docker image from the new code 
+and start a container with the latest commits.
